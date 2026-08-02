@@ -157,6 +157,15 @@
                   "type": "string",
                   "format": "uri",
                   "description": "modulab-community entries only: URL to the module.zip artifact."
+          },
+          "cosign_sig_url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "modulab-community entries only, optional: URL to the Cosign Sigstore bundle (JSON, produced by `cosign sign-blob --bundle`) for release_url's module.zip. Only meaningful together with cosign_pubkey - Core downloads and verifies this bundle against that key on install/update (see modulab-core's store/github.go and modules/installer.go). Declaring this field here, in the reviewed discovery entry, rather than in the module's own manifest.yaml inside its own repo, is deliberate: a compromised release repo could otherwise swap the artifact and the verification key together in one step (L-5, audit 2026-08-02)."
+          },
+          "cosign_pubkey": {
+                  "type": "string",
+                  "description": "modulab-community entries only, optional: the Cosign public key (PEM text) to verify cosign_sig_url's bundle against. See cosign_sig_url's description for why this lives here rather than in the module's own repo - a maintainer reviewing this PR is the trust anchor, not the module author's own infrastructure."
           }
     }
 }
